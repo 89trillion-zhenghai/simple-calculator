@@ -5,6 +5,8 @@ type SimpleStack struct {
 	nodes []int
 }
 
+
+
 //Init 初始化栈
 func (stack *SimpleStack) Init()  {
 	stack.nodes = make([]int,0)
