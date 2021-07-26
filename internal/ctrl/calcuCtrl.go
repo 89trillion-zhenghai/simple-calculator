@@ -14,6 +14,9 @@ func Compute(c *gin.Context) (interface{},error) {
 		//参数不为空校验
 		return nil,globalError.ExpressionError("表达式为空",globalError.ExpIsEmpty)
 	}
+	if !utils.IsOtherChar(exp){
+		return nil,globalError.ExpressionError("表达式含有非法字符",globalError.IllegalSymbol)
+	}
 	flag := utils.IsLegitimate(exp)
 	if !flag{
 		//表达式不合法

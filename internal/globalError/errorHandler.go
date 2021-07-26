@@ -7,13 +7,12 @@ import (
 
 const (
 	InvalidExpression  = 1001	//表达式不合法
-	IllegalSymbol	   = 10011	//非法字符
+	IllegalSymbol	   = 10011	//出现非法字符
 	HeadOperator	   = 10012	//表达式首字符为运算符
 	EndOperator		   = 10013	//表达式最后一个字符为运算符
 	SuccessiveOperator = 10014  //连续出现运算符
 	ExpIsEmpty		   = 10015	//表达式为空
-	ServerException    = 1002 	//系统异常
-	LogicError         = 1003 	//逻辑异常
+
 )
 
 type GlobalHandler func(c *gin.Context) (interface{}, error)
@@ -42,21 +41,5 @@ func ExpressionError(message string, code int) GlobalError {
 	}
 }
 
-// LogicalError 运算逻辑错误
-func LogicalError(message string) GlobalError {
-	return GlobalError{
-		Status:  http.StatusForbidden,
-		Code:    LogicError,
-		Message: message,
-	}
-}
 
-// ServerError  未知异常
-func ServerError(message string) GlobalError {
-	return GlobalError{
-		Status:  http.StatusForbidden,
-		Code:    ServerException,
-		Message: message,
-	}
-}
 

@@ -14,25 +14,90 @@
 
 ​		3、本项目监听的是8080端口ip地址为localhost
 
-## 功能介绍
+## 目录结构
 
-1、模拟栈的数据结构，利用Go中已有的数据结构实现简易栈。其中简易栈应包含以下功能
+```tree
+├── README.md
+├── app
+│   ├── main
+│   └── main.go
+├── go.mod
+├── go.sum
+├── internal
+│   ├── ctrl
+│   │   └── calcuCtrl.go
+│   ├── globalError
+│   │   ├── error.go
+│   │   └── errorHandler.go
+│   ├── handler
+│   │   └── calcuHandler.go
+│   ├── router
+│   │   └── Route.go
+│   └── utils
+│       ├── IsLegitimate.go
+│       ├── auxiliary.go
+│       ├── simpleCal.go
+│       └── stack.go
+├── locust.py
+└── report.html
+```
 
-​		1、Init()     ---初始化
+## 代码逻辑分层
 
-​		2、IsEmpty()	---判空
+| 层     | 文件夹            | 功能                     | 调用关系     | 其他说明     |
+| ------ | ----------------- | ------------------------ | ------------ | ------------ |
+| 应用层 | /app              | 服务器启动               | 调用路由层   | 不可同层调用 |
+| 路由层 | /internal/router  | 路由转发                 | 调用控制层   | 不可同层调用 |
+| 控制层 | /internal/ctrl    | 参数校验                 | 调用业务层   | 不可同层调用 |
+| 业务层 | /internal/handler | 表达式处理，返回计算结果 | 调用工具层   | 不可同层调用 |
+| 工具层 | /internal/utils   | 计算表达式具体算法实现   | 被业务层调用 | 可同层调用   |
 
-​		3、Push()		---入栈
+## 存储设计
 
-​		4、Pop()			---出栈
+##### 使用自定义栈保存计算信息和中间结果
 
-​		5、Len()			---实际存储元素的个数
+```go
+//SimpleStack 简易版栈，利用切片实现了栈的基础功能入栈和出栈
+type SimpleStack struct {
+	nodes []int
+}
+```
 
-​		6、Cap()			---栈容量
+## 接口设计
 
-​		7、isLicit()		  ---栈中元素是否合法
+请求方法：HTTP.GET
 
-2、遍历一遍字符串将每个字符入栈，调用isLicit()判断其是否合法。然后对其进行数学计算并返回结果。
+接口地址：http://127.0.0.1:8080/calculate
+
+请求参数
+
+```json
+{
+	"exp":"2*19-8/2"
+}
+```
+
+响应状态码
+
+| 状态码 | 说明         |
+| ------ | ------------ |
+| 1001   | 表达式不合法 |
+| 10011  | 出现非法字符 |
+| 10015  | 表达式为空   |
+
+## 第三方库
+
+### gin
+
+```go
+go语言的web框架
+https://github.com/gin-gonic/gin
+```
+
+## todo
+
+拓展支持其他运算符
 
 ## 流程图
+
 ![未命名文件 (1)](https://user-images.githubusercontent.com/86946999/125300594-c534cb80-e35c-11eb-9f3c-51e4653a90d2.jpg)
