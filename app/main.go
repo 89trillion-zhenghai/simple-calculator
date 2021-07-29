@@ -10,6 +10,3 @@ func main() {
 	router.Route(r)
 	r.Run(":8080")
 }
-
-
-
