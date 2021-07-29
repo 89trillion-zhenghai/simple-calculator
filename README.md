@@ -100,4 +100,4 @@ https://github.com/gin-gonic/gin
 
 ## 流程图
 
-![未命名文件 (1)](https://user-images.githubusercontent.com/86946999/125300594-c534cb80-e35c-11eb-9f3c-51e4653a90d2.jpg)
+![](流程图.jpg)
